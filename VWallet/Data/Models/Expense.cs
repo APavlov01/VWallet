@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VWallet.Data.Models
+namespace VWallet
 {
     public class Expense
     {
@@ -25,9 +25,8 @@ namespace VWallet.Data.Models
 
 
 
-        public Expense(int id, string description, double value, int type_id)
+        public Expense(string description, double value, int type_id)
         {
-            this.Id = id;
             this.Description = description;
             this.Value = value;
             this.Type_id = type_id;

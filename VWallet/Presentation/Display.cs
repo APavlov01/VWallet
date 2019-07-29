@@ -50,11 +50,28 @@ namespace VWallet
             Console.ReadKey();
             Console.Clear();
         }
+        public int GetIncomeType()
+        {
+            Console.Write("\nEnter a type: ");
+            var choice = int.Parse(Console.ReadLine());
+            return choice;
+        }
         public string GetIncomeDescription()
         {
             Console.Write("Enter description: ");
             string description = Console.ReadLine();
             return description;
+        }
+        public void GetIncomeTypeInterface()
+        {
+            Console.WriteLine("Choose type of income:");
+            Console.WriteLine("1.Family");
+            Console.WriteLine("2.Job");
+            Console.WriteLine("3.Sales");
+            Console.WriteLine("4.Trading");
+            Console.WriteLine("5.Services");
+            Console.WriteLine("6.Online");
+            Console.WriteLine("7.Other");
         }
         public double GetValue()
         {

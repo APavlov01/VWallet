@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VWallet.Models
+namespace VWallet
 {
     public class Income
     {
@@ -21,15 +21,14 @@ namespace VWallet.Models
         public double Value { get; set; }
 
         [Required]
-        public int Type_id { get; set; }
+        public Type Type { get; set; }
 
 
-        public Income(int id, string description, double value, int type_id)
+        public Income(string description, double value, Type type)
         {
-            this.Id = id;
             this.Description = description;
             this.Value = value;
-            this.Type_id = type_id;
+            this.Type = type;
         }
     }
 }

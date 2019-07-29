@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VWallet.Data.Models;
-using VWallet.Models;
+using VWallet;
 
-namespace VWallet.Data
+namespace VWallet
 {
     public class VWalletContext : DbContext
     {

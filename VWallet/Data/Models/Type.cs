@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VWallet.Data.Models
+namespace VWallet
 {
     public class Type
     {
@@ -16,9 +16,8 @@ namespace VWallet.Data.Models
         [Required]
         public string NameOfType { get; set; }
 
-        public Type(int id, string nameOfType)
+        public Type(string nameOfType)
         {
-            this.Id = id;
             this.NameOfType = nameOfType;
         }
     }

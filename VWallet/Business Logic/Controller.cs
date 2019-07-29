@@ -9,10 +9,11 @@ namespace VWallet
 {
     public class Controller
     {
-
+        private VWalletContext context = new VWalletContext();
         private Display display = new Display();
         private string OutputMessage;
         private int GivenCommand;
+
         public void Start()
         {
             display.WelcomeScreen();
@@ -33,7 +34,6 @@ namespace VWallet
                     case 4:
                         Environment.Exit(0);
                         break;
-
                     default:
                         OutputMessage = "Invalid choice!";
                         Console.ForegroundColor = ConsoleColor.Red;
@@ -45,6 +45,7 @@ namespace VWallet
                 
             }
         }
+
         private void DepositOption()
         {
             display.DepositOptionInterface();
@@ -84,7 +85,11 @@ namespace VWallet
             Console.ForegroundColor = ConsoleColor.Green;
             display.PrintResult(OutputMessage);
             Console.ResetColor();
-            IncomeDescriptionRead();
+            string FinishedDescription=IncomeDescriptionRead();
+            string FinishedType= IncomeTypeNameRead();
+            Type TypeOfIncome = context.Types.Single(x => x.NameOfType == FinishedType);
+            Income income = new Income(FinishedDescription, GivenValue, TypeOfIncome);
+            context.Incomes.Add(income);
             OutputMessage = "\nPress any key to go back to Deposit menu...";
             display.PrintResult(OutputMessage);
             Console.ReadKey();
@@ -105,7 +110,7 @@ namespace VWallet
 
                 if (validator == 1)
                 {
-                    OutputMessage = "Successfully added description to income!";
+                    OutputMessage = "Successfully added description of income!";
                 }
                 else if (validator == -1 || validator == 0)
                 {
@@ -127,6 +132,7 @@ namespace VWallet
             Console.ResetColor();
             return FinishedDescription;
         }
+
         private int ValidateIncomeDescription(string GivenDescription, int ParagraphCount)
         {
             if (string.IsNullOrEmpty(GivenDescription))
@@ -142,6 +148,50 @@ namespace VWallet
                 return 1;
             }
             return 2;
+        }
+
+        private string IncomeTypeNameRead()
+        {
+            string TypeName = null;
+            display.GetIncomeTypeInterface();
+            int GivenTypeNumber = display.GetIncomeType();
+            while(GivenTypeNumber<1 || GivenTypeNumber>7)
+            {
+                OutputMessage = "Please enter a valid type!";
+                Console.ForegroundColor = ConsoleColor.Red;
+                display.PrintResult(OutputMessage);
+                Console.ResetColor();
+                GivenTypeNumber = display.GetIncomeType();
+            }
+            switch(GivenTypeNumber)
+            {
+                case 1:
+                    TypeName = "Family";
+                    break;
+                case 2:
+                    TypeName = "Job";
+                    break;
+                case 3:
+                    TypeName = "Sales";
+                    break;
+                case 4:
+                    TypeName = "Trading";
+                    break;
+                case 5:
+                    TypeName = "Services";
+                    break;
+                case 6:
+                    TypeName = "Online";
+                    break;
+                case 7:
+                    TypeName = "Other";
+                    break;
+            }
+            OutputMessage = "Successfully added type of income!";
+            Console.ForegroundColor = ConsoleColor.Green;
+            display.PrintResult(OutputMessage);
+            Console.ResetColor();
+            return TypeName;
         }
         private void EscapeToMain()
         { 
