@@ -56,7 +56,5 @@ C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWall
 C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\obj\Debug\VWallet.csproj.CopyComplete
 C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\obj\Debug\VWallet.exe
 C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\obj\Debug\VWallet.pdb
-C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\bin\Debug\EntityFramework.dll
-C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\bin\Debug\EntityFramework.xml
-C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\bin\Debug\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\georg\OneDrive\Работен плот\repository\VWallet\VWallet\VWallet\bin\Debug\Microsoft.EntityFrameworkCore.Design.xml
