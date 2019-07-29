@@ -30,6 +30,6 @@ namespace VWallet.Data
 
         public virtual DbSet<Income> Incomes { get; set; }
         public virtual DbSet<Expense> Expenses { get; set; }
-        public virtual DbSet<Models.Type> Types { get; set; }
+        public virtual DbSet<Type> Types { get; set; }
     }
 }
