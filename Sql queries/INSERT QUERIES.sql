@@ -12,3 +12,5 @@ insert into Types(NameOfType) values ('Shopping');
 insert into Types(NameOfType) values ('Financial expenses');
 insert into Types(NameOfType) values ('Vehicle');
 insert into Types(NameOfType) values ('Other expenses');
+
+insert into TotalAccountBalance(Name, Value) values ('Total amount', '0');

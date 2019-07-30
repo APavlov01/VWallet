@@ -9,7 +9,7 @@ using VWallet;
 namespace VWallet.Migrations
 {
     [DbContext(typeof(VWalletContext))]
-    [Migration("20190730183558_Initial")]
+    [Migration("20190730204225_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,22 @@ namespace VWallet.Migrations
                     b.ToTable("Incomes");
                 });
 
+            modelBuilder.Entity("VWallet.TotalAccountBalance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TotalAccountBalance");
+                });
+
             modelBuilder.Entity("VWallet.Type", b =>
                 {
                     b.Property<int>("Id")
@@ -68,24 +84,6 @@ namespace VWallet.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Types");
-                });
-
-            modelBuilder.Entity("VWallet.WalletStatistics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("Count");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<int>("TypeId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WalletStatistics");
                 });
 #pragma warning restore 612, 618
         }

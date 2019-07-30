@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace VWallet
 {
-    public class WalletStatistics
+    public class TotalAccountBalance
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,16 +18,12 @@ namespace VWallet
         public string Name { get; set; }
 
         [Required]
-        public double Count { get; set; }
+        public double Value { get; set; }
 
-        [Required]
-        public int TypeId { get; set; }
-
-        public WalletStatistics(string name, double count, int typeId)
+        public TotalAccountBalance(string name, double value)
         {
             Name = name;
-            Count = count;
-            TypeId = typeId;
+            Value = value;
         }
     }
 }

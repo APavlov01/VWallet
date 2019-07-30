@@ -130,12 +130,12 @@
     <Compile Include="Data\Connection.cs" />
     <Compile Include="Data\Models\Expense.cs" />
     <Compile Include="Data\Models\Income.cs" />
-    <Compile Include="Data\Models\WalletStatistics.cs" />
+    <Compile Include="Data\Models\TotalAccountBalance.cs" />
     <Compile Include="Data\Models\Type.cs" />
     <Compile Include="Data\VWalletContext.cs" />
-    <Compile Include="Migrations\20190730183558_Initial.cs" />
-    <Compile Include="Migrations\20190730183558_Initial.designer.cs">
-      <DependentUpon>20190730183558_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\20190730204225_Initial.cs" />
+    <Compile Include="Migrations\20190730204225_Initial.designer.cs">
+      <DependentUpon>20190730204225_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\VWalletContextModelSnapshot.cs" />
     <Compile Include="Presentation\Display.cs" />

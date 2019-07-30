@@ -13,13 +13,13 @@ namespace VWallet
         private Display display = new Display();
         private string OutputMessage;
         private int GivenCommand;
-        private WalletStatistics TotalSumOfAccount;
+        private TotalAccountBalance TotalSumOfAccount;
 
         public void Start()
         {
             display.WelcomeScreen();
-            TotalSumOfAccount = context.WalletStatistics.Single(x => x.Name == "Total amount");
-            OutputMessage = $"\nCurrent balance: {TotalSumOfAccount.Count:f2}BGN";
+            TotalSumOfAccount = context.TotalAccountBalance.Single(x => x.Name == "Total amount");
+            OutputMessage = $"\nCurrent balance: {TotalSumOfAccount.Value:f2}BGN";
             Console.ForegroundColor = ConsoleColor.Cyan;
             display.PrintResult(OutputMessage);
             Console.ResetColor();
@@ -142,7 +142,7 @@ namespace VWallet
             Type TypeOfIncome = context.Types.Single(x => x.NameOfType == FinishedType);
             Income income = new Income(FinishedDescription, GivenValue, TypeOfIncome.Id);
             context.Incomes.Add(income);
-            TotalSumOfAccount.Count += GivenValue;
+            TotalSumOfAccount.Value += GivenValue;
             context.SaveChanges();
             EscapeToMain();
         }
@@ -201,23 +201,15 @@ namespace VWallet
                 try
                 {
                     GivenValue = display.GetValue();
-                    while (GivenValue <= 0)
+                    CheckBalanceAfterExpense = TotalSumOfAccount.Value - GivenValue;
+                    while (GivenValue <= 0 || CheckBalanceAfterExpense < 0)
                     {
-                        OutputMessage = "You cannot expend value less or equal to 0";
+                        OutputMessage = "Invalid expense input!";
                         Console.ForegroundColor = ConsoleColor.Red;
                         display.PrintResult(OutputMessage);
                         Console.ResetColor();
                         GivenValue = display.GetValue();
-                    }
-                    CheckBalanceAfterExpense = TotalSumOfAccount.Count - GivenValue;
-                    while (CheckBalanceAfterExpense < 0)
-                    {
-                        OutputMessage = "Your balance cannot be below 0BGN";
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        display.PrintResult(OutputMessage);
-                        Console.ResetColor();
-                        GivenValue = display.GetValue();
-                        CheckBalanceAfterExpense = TotalSumOfAccount.Count - GivenValue;
+                        CheckBalanceAfterExpense = TotalSumOfAccount.Value - GivenValue;
                     }
                     break;
                 }
@@ -238,7 +230,7 @@ namespace VWallet
             Type TypeOfExpense = context.Types.Single(x => x.NameOfType == FinishedType);
             Expense income = new Expense(FinishedDescription, GivenValue, TypeOfExpense.Id);
             context.Expenses.Add(income);
-            TotalSumOfAccount.Count -= GivenValue;
+            TotalSumOfAccount.Value -= GivenValue;
             context.SaveChanges();
             EscapeToMain();
         }
@@ -530,7 +522,7 @@ namespace VWallet
             }
             if (answer == "y")
             {
-                TotalSumOfAccount.Count = 0;
+                TotalSumOfAccount.Value = 0;
                 foreach (Income income in context.Incomes)
                 {
                     context.Incomes.Remove(income);
@@ -539,7 +531,7 @@ namespace VWallet
                 {
                     context.Expenses.Remove(expense);
                 }
-                Console.WriteLine($"Account balance updated to {TotalSumOfAccount.Count:f2} BGN");
+                Console.WriteLine($"Account balance updated to {TotalSumOfAccount.Value:f2} BGN");
                 context.SaveChanges();
                 EscapeToMain();
             }

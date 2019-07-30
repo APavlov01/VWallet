@@ -146,7 +146,8 @@ namespace VWallet
             Console.WriteLine("7.Other");
         }
 
-        public void ShowStatisticsInterfaceIncomes(double Family, double Job, double Sales, double Trading, double Services, double Online, double OtherIncomeCounter, double Total)
+        public void ShowStatisticsInterfaceIncomes(double Family, double Job, double Sales, double Trading, 
+            double Services, double Online, double OtherIncomeCounter, double Total)
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
@@ -182,7 +183,8 @@ namespace VWallet
             Console.ResetColor();
         }
 
-        public void ShowStatisticsInterfaceExpenses(double FoodDrinks, double Fun, double Games, double Shopping, double Financial, double Vehicle, double OtherExpenseCounter, double Total)
+        public void ShowStatisticsInterfaceExpenses(double FoodDrinks, double Fun, double Games, double Shopping, 
+            double Financial, double Vehicle, double OtherExpenseCounter, double Total)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Expenses");
