@@ -15,18 +15,22 @@ namespace VWallet
 
         public void WelcomeScreen()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             StringBuilder sb = new StringBuilder();
             sb.Append('=',120);
             sb.Append(' ', 52);
             sb.AppendLine("Welcome to VWallet!");
             sb.Append('=', 120);
             sb.Append("\n\nOptions:");
-            sb.Append("\n1.Register Income");
-            sb.Append("\n2.Register Expense");
-            sb.Append("\n3.Show Statistics");
-            sb.Append("\n4.Exit");
+            sb.Append("\n1. Register Income");
+            sb.Append("\n2. Register Expense");
+            sb.Append("\n3. Show Statistics");
+            sb.Append("\n4. Reset balance");
+            sb.Append("\n5. Exit");
             Console.WriteLine(sb.ToString());
+            Console.ResetColor();
         }
+
         public int GetCommand()
         {
             Console.Write("\nChoose an option: ");
@@ -50,18 +54,21 @@ namespace VWallet
             Console.ReadKey();
             Console.Clear();
         }
+
         public int GetIncomeType()
         {
             Console.Write("\nEnter a type: ");
             var choice = int.Parse(Console.ReadLine());
             return choice;
         }
+
         public string GetIncomeDescription()
         {
             Console.Write("Enter description: ");
             string description = Console.ReadLine();
             return description;
         }
+
         public void GetIncomeTypeInterface()
         {
             Console.WriteLine("Choose type of income:");
@@ -73,11 +80,30 @@ namespace VWallet
             Console.WriteLine("6.Online");
             Console.WriteLine("7.Other");
         }
+
         public double GetValue()
         {
             Console.Write("\nEnter a value: ");
             double value = double.Parse(Console.ReadLine());
             return value;
+        }
+
+        public void WarningMessageForReset()
+        {
+            Console.Clear();
+            StringBuilder sb = new StringBuilder();
+            sb.Append('=', 120);
+            sb.Append(' ', 52);
+            sb.AppendLine("Reset account balance");
+            sb.Append('=', 120);
+            Console.WriteLine(sb.ToString());
+        }
+
+        public string GetResetAnswer()
+        {
+            Console.Write("\nAre you sure you want to erase all account records?(Y/N): ");
+            string answer = Console.ReadLine().Trim().ToLower();
+            return answer;
         }
 
         public void DepositOptionInterface()
