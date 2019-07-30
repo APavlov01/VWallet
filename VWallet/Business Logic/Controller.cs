@@ -19,15 +19,7 @@ namespace VWallet
             display.WelcomeScreen();
             while (true)
             {
-                try
-                {
-                    GivenCommand = display.GetCommand();
-                }
-                catch (FormatException)
-                {
-
-                    GivenCommand = 10;
-                }
+                GivenCommand = display.GetCommand();
                 switch (GivenCommand)
                 {
                     case 1:

@@ -9,6 +9,6 @@ namespace VWallet
     public class Connection
     {
         public const string CONNECTION_STRING =
-            "Server=.;Database=VWallet;Integrated Security=true";
+            "Server=.\\SQLEXPRESS;Database=VWallet;Integrated Security=true";
     }
 }

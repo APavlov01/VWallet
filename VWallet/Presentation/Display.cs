@@ -32,15 +32,7 @@ namespace VWallet
             Console.Write("\nChoose an option: ");
             //var choice = Console.ReadLine().ToLower().Trim();
             //choice = string.Join(" ", choice.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
-            var choice = 0;
-            try
-            {
-                choice = int.Parse(Console.ReadLine());
-            }
-            catch (FormatException)
-            {
-                throw;
-            }
+            var choice = int.Parse(Console.ReadLine());
             return choice;
         }
 
