@@ -94,5 +94,31 @@ namespace VWallet
             Console.WriteLine(sb.ToString());
         }
 
+        public void ExpenseOptionInterface()
+        {
+            Console.Clear();
+            StringBuilder sb = new StringBuilder();
+            sb.Append('=', 120);
+            sb.Append(' ', 52);
+            sb.AppendLine("Register an Expense");
+            sb.Append('=', 120);
+            sb.Append("\n\nOptions:");
+            sb.Append("\n1.Register Expense");
+            sb.Append("\n2.Back to main menu");
+            Console.WriteLine(sb.ToString());
+        }
+
+        public void GetExpenseTypeInterface()
+        {
+            Console.WriteLine("Choose type of income:");
+            Console.WriteLine("1.Food & Drinks");
+            Console.WriteLine("2.Fun");
+            Console.WriteLine("3.Games");
+            Console.WriteLine("4.Shopping");
+            Console.WriteLine("5.Financial expenses");
+            Console.WriteLine("6.Vehicle");
+            Console.WriteLine("7.Other");
+        }
+
     }
 }

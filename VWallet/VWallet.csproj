@@ -132,14 +132,14 @@
     <Compile Include="Data\Models\Income.cs" />
     <Compile Include="Data\Models\Type.cs" />
     <Compile Include="Data\VWalletContext.cs" />
-    <Compile Include="Migrations\20190730065817_VWallet-v1.cs" />
-    <Compile Include="Migrations\20190730065817_VWallet-v1.designer.cs">
-      <DependentUpon>20190730065817_VWallet-v1.cs</DependentUpon>
+    <Compile Include="Data\Migrations\20190730092833_Initial.cs" />
+    <Compile Include="Data\Migrations\20190730092833_Initial.designer.cs">
+      <DependentUpon>20190730092833_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Data\Migrations\VWalletContextModelSnapshot.cs" />
     <Compile Include="Presentation\Display.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VWallet\Migrations\VWalletContextModelSnapshot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

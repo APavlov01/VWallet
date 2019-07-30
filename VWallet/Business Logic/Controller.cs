@@ -13,7 +13,7 @@ namespace VWallet
         private Display display = new Display();
         private string OutputMessage;
         private int GivenCommand;
-
+        //TODO Statistics + SUM
         public void Start()
         {
             display.WelcomeScreen();
@@ -26,7 +26,7 @@ namespace VWallet
                         DepositOption();
                         break;
                     case 2:
-                        //ExpenseOption; TODO
+                        ExpenseOption();
                         break;
                     case 3:
                         //StatisticsOption; TODO
@@ -85,18 +85,114 @@ namespace VWallet
             Console.ForegroundColor = ConsoleColor.Green;
             display.PrintResult(OutputMessage);
             Console.ResetColor();
-            string FinishedDescription=IncomeDescriptionRead();
+            string FinishedDescription= DescriptionRead();
             string FinishedType= IncomeTypeNameRead();
             Type TypeOfIncome = context.Types.Single(x => x.NameOfType == FinishedType);
             Income income = new Income(FinishedDescription, GivenValue, TypeOfIncome.Id);
             context.Incomes.Add(income);
+            context.SaveChanges();
             OutputMessage = "\nPress any key to go back to Deposit menu...";
             display.PrintResult(OutputMessage);
             Console.ReadKey();
             DepositOption();
         }
 
-        private string IncomeDescriptionRead()
+        private void ExpenseOption()
+        {
+            display.ExpenseOptionInterface();
+            while (true)
+            {
+                GivenCommand = display.GetCommand();
+                switch (GivenCommand)
+                {
+                    case 1:
+                        ExpenseValue();
+                        break;
+                    case 2:
+                        EscapeToMain();
+                        break;
+                    default:
+                        OutputMessage = "Invalid choice!";
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        display.PrintResult(OutputMessage);
+                        Console.ResetColor();
+                        break;
+                }
+            }
+        }
+
+        private void ExpenseValue()
+        {
+            double GivenValue = display.GetValue();
+            while (GivenValue <= 0)
+            {
+                OutputMessage = "You cannot expend value less or equal to 0";
+                Console.ForegroundColor = ConsoleColor.Red;
+                display.PrintResult(OutputMessage);
+                Console.ResetColor();
+                GivenValue = display.GetValue();
+            }
+            OutputMessage = $"Successfully taken {GivenValue} BGN from your account!";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            display.PrintResult(OutputMessage);
+            Console.ResetColor();
+            string FinishedDescription = DescriptionRead();
+            string FinishedType = ExpenseTypeNameRead();
+            Type TypeOfExpense = context.Types.Single(x => x.NameOfType == FinishedType);
+            Expense income = new Expense(FinishedDescription, GivenValue, TypeOfExpense.Id);
+            context.Expenses.Add(income);
+            context.SaveChanges();
+            OutputMessage = "\nPress any key to go back to Expense menu...";
+            display.PrintResult(OutputMessage);
+            Console.ReadKey();
+            DepositOption();
+        }
+
+        private string ExpenseTypeNameRead()
+        {
+            string TypeName = null;
+            display.GetExpenseTypeInterface();
+            int GivenTypeNumber = display.GetIncomeType();
+            while (GivenTypeNumber < 1 || GivenTypeNumber > 7)
+            {
+                OutputMessage = "Please enter a valid type!";
+                Console.ForegroundColor = ConsoleColor.Red;
+                display.PrintResult(OutputMessage);
+                Console.ResetColor();
+                GivenTypeNumber = display.GetIncomeType();
+            }
+            switch (GivenTypeNumber)
+            {
+                case 1:
+                    TypeName = "Food & Drinks";
+                    break;
+                case 2:
+                    TypeName = "Fun";
+                    break;
+                case 3:
+                    TypeName = "Games";
+                    break;
+                case 4:
+                    TypeName = "Shopping";
+                    break;
+                case 5:
+                    TypeName = "Financial expenses";
+                    break;
+                case 6:
+                    TypeName = "Vehicle";
+                    break;
+                case 7:
+                    TypeName = "Other";
+                    break;
+            }
+            OutputMessage = "Successfully added type of expense!";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            display.PrintResult(OutputMessage);
+            Console.ResetColor();
+            return TypeName;
+        }
+
+        private string DescriptionRead()
         {
             int ParagraphCount = 1;
             int validator = 0;
@@ -106,11 +202,11 @@ namespace VWallet
             {
                 string GivenDescription = display.GetIncomeDescription();
 
-                validator = ValidateIncomeDescription(GivenDescription, ParagraphCount);
+                validator = ValidateDescription(GivenDescription, ParagraphCount);
 
                 if (validator == 1)
                 {
-                    OutputMessage = "Successfully added description of income!";
+                    OutputMessage = "Successfully added description!";
                 }
                 else if (validator == -1 || validator == 0)
                 {
@@ -133,7 +229,7 @@ namespace VWallet
             return FinishedDescription;
         }
 
-        private int ValidateIncomeDescription(string GivenDescription, int ParagraphCount)
+        private int ValidateDescription(string GivenDescription, int ParagraphCount)
         {
             if (string.IsNullOrEmpty(GivenDescription))
             {
@@ -193,6 +289,7 @@ namespace VWallet
             Console.ResetColor();
             return TypeName;
         }
+
         private void EscapeToMain()
         { 
             display.ReturnToMainMenuScreen();
