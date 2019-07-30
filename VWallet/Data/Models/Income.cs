@@ -21,14 +21,14 @@ namespace VWallet
         public double Value { get; set; }
 
         [Required]
-        public Type Type { get; set; }
+        public int TypeId { get; set; }
 
 
-        public Income(string description, double value, Type type)
+        public Income(string description, double value, int typeId)
         {
-            this.Description = description;
-            this.Value = value;
-            this.Type = type;
+            Description = description;
+            Value = value;
+            TypeId = typeId;
         }
     }
 }

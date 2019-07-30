@@ -88,7 +88,7 @@ namespace VWallet
             string FinishedDescription=IncomeDescriptionRead();
             string FinishedType= IncomeTypeNameRead();
             Type TypeOfIncome = context.Types.Single(x => x.NameOfType == FinishedType);
-            Income income = new Income(FinishedDescription, GivenValue, TypeOfIncome);
+            Income income = new Income(FinishedDescription, GivenValue, TypeOfIncome.Id);
             context.Incomes.Add(income);
             OutputMessage = "\nPress any key to go back to Deposit menu...";
             display.PrintResult(OutputMessage);
