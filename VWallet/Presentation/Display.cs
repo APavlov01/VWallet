@@ -146,5 +146,67 @@ namespace VWallet
             Console.WriteLine("7.Other");
         }
 
+        public void ShowStatisticsInterfaceIncomes(double Family, double Job, double Sales, double Trading, double Services, double Online, double OtherIncomeCounter, double Total)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            StringBuilder sb = new StringBuilder();
+            sb.Append('=', 120);
+            sb.Append(' ', 52);
+            sb.AppendLine("Statistics");
+            sb.Append('=', 120);
+            Console.WriteLine(sb.ToString());
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Incomes");
+            Console.ResetColor();
+
+            Console.WriteLine("Type\t\tValue\t\t%/Total Incomes");
+
+            Console.WriteLine("\nFamily\t\t" + Family + "BGN " + $"\t\t{(Family / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nJob\t\t" + Job + "BGN " + $"\t\t{(Job / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nSales\t\t" + Sales + "BGN " + $"\t\t{(Sales / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nTrading\t\t" + Trading + "BGN " + $"\t\t{(Trading / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nServices\t" + Services + "BGN " + $"\t\t{(Services / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nOnline\t\t" + Online + "BGN " + $"\t\t{(Online / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nOther\t\t" + OtherIncomeCounter + "BGN " + $"\t\t{(OtherIncomeCounter / Total) * 100:f2}" + "%");
+
+            StringBuilder sbline = new StringBuilder();
+            sbline.Append('-', 120);
+            Console.Write(sbline.ToString());
+            Console.ResetColor();
+        }
+
+        public void ShowStatisticsInterfaceExpenses(double FoodDrinks, double Fun, double Games, double Shopping, double Financial, double Vehicle, double OtherExpenseCounter, double Total)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Expenses");
+            Console.ResetColor();
+
+            Console.WriteLine("Type\t\tValue\t\t%/Total Expenses");
+
+            Console.WriteLine("\nFoodDrinks\t" + FoodDrinks + "BGN " + $"\t\t{(FoodDrinks / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nFun\t\t" + Fun + "BGN " + $"\t\t{(Fun / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nGames\t\t" + Games + "BGN " + $"\t\t{(Games / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nShopping\t" + Shopping + "BGN " + $"\t\t{(Shopping / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nFinancial\t" + Financial + "BGN " + $"\t\t{(Financial / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nVehicle\t\t" + Vehicle + "BGN " + $"\t\t{(Vehicle / Total) * 100:f2}" + "%");
+
+            Console.WriteLine("\nOther\t\t" + OtherExpenseCounter + "BGN " + $"\t\t{(OtherExpenseCounter / Total) * 100:f2}" + "%");
+
+            Console.WriteLine();
+            Console.ResetColor();
+        }
+
     }
 }

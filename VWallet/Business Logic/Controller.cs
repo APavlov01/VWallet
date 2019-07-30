@@ -13,12 +13,13 @@ namespace VWallet
         private Display display = new Display();
         private string OutputMessage;
         private int GivenCommand;
-        private double TotalSumOfAccount=0;
-        //TODO Statistics
+        private WalletStatistics TotalSumOfAccount;
+
         public void Start()
         {
             display.WelcomeScreen();
-            OutputMessage = $"\nCurrent balance: {TotalSumOfAccount:f2}";
+            TotalSumOfAccount = context.WalletStatistics.Single(x => x.Name == "Total amount");
+            OutputMessage = $"\nCurrent balance: {TotalSumOfAccount.Count:f2}BGN";
             Console.ForegroundColor = ConsoleColor.Cyan;
             display.PrintResult(OutputMessage);
             Console.ResetColor();
@@ -49,7 +50,7 @@ namespace VWallet
                     ExpenseOption();
                     break;
                 case 3:
-                    //StatisticsOption; TODO
+                    ShowStatistics();
                     break;
                 case 4:
                     ResetBalance();
@@ -141,8 +142,8 @@ namespace VWallet
             Type TypeOfIncome = context.Types.Single(x => x.NameOfType == FinishedType);
             Income income = new Income(FinishedDescription, GivenValue, TypeOfIncome.Id);
             context.Incomes.Add(income);
+            TotalSumOfAccount.Count += GivenValue;
             context.SaveChanges();
-            TotalSumOfAccount += GivenValue;
             EscapeToMain();
         }
 
@@ -157,6 +158,13 @@ namespace VWallet
                     if (GivenCommand == 1 || GivenCommand == 2)
                     {
                         break;
+                    }
+                    else
+                    {
+                        OutputMessage = "Invalid choice of expense!";
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        display.PrintResult(OutputMessage);
+                        Console.ResetColor();
                     }
                 }
                 catch
@@ -186,14 +194,40 @@ namespace VWallet
 
         private void ExpenseValue()
         {
-            double GivenValue = display.GetValue();
-            while (GivenValue <= 0)
+            double GivenValue = 0;
+            double CheckBalanceAfterExpense = 0;
+            while (true)
             {
-                OutputMessage = "You cannot expend value less or equal to 0";
-                Console.ForegroundColor = ConsoleColor.Red;
-                display.PrintResult(OutputMessage);
-                Console.ResetColor();
-                GivenValue = display.GetValue();
+                try
+                {
+                    GivenValue = display.GetValue();
+                    while (GivenValue <= 0)
+                    {
+                        OutputMessage = "You cannot expend value less or equal to 0";
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        display.PrintResult(OutputMessage);
+                        Console.ResetColor();
+                        GivenValue = display.GetValue();
+                    }
+                    CheckBalanceAfterExpense = TotalSumOfAccount.Count - GivenValue;
+                    while (CheckBalanceAfterExpense < 0)
+                    {
+                        OutputMessage = "Your balance cannot be below 0BGN";
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        display.PrintResult(OutputMessage);
+                        Console.ResetColor();
+                        GivenValue = display.GetValue();
+                        CheckBalanceAfterExpense = TotalSumOfAccount.Count - GivenValue;
+                    }
+                    break;
+                }
+                catch
+                {
+                    OutputMessage = "Invalid input!";
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    display.PrintResult(OutputMessage);
+                    Console.ResetColor();
+                }
             }
             OutputMessage = $"Successfully taken {GivenValue:f2} BGN from your account!";
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -204,8 +238,8 @@ namespace VWallet
             Type TypeOfExpense = context.Types.Single(x => x.NameOfType == FinishedType);
             Expense income = new Expense(FinishedDescription, GivenValue, TypeOfExpense.Id);
             context.Expenses.Add(income);
+            TotalSumOfAccount.Count -= GivenValue;
             context.SaveChanges();
-            TotalSumOfAccount -= GivenValue;
             EscapeToMain();
         }
 
@@ -219,7 +253,7 @@ namespace VWallet
                 try
                 {
                     GivenTypeNumber = display.GetIncomeType();
-                    if (GivenTypeNumber > 1 && GivenTypeNumber < 7)
+                    if (GivenTypeNumber > 0 && GivenTypeNumber < 8)
                     {
                         break;
                     }
@@ -258,7 +292,7 @@ namespace VWallet
                     TypeName = "Vehicle";
                     break;
                 case 7:
-                    TypeName = "Other";
+                    TypeName = "Other expenses";
                     break;
                 default:
                     OutputMessage = "Invalid choice of expense type!";
@@ -378,7 +412,7 @@ namespace VWallet
                     TypeName = "Online";
                     break;
                 case 7:
-                    TypeName = "Other";
+                    TypeName = "Other incomes";
                     break;
                 default:
                     OutputMessage = "Invalid type entry!";
@@ -395,9 +429,95 @@ namespace VWallet
             return TypeName;
         }
 
+        private void ShowStatistics()
+        {
+            double FamilyCounter = 0, JobCounter=0, SalesCounter=0, TradingCounter=0, ServicesCounter=0, OnlineCounter=0, OtherIncomeCounter=0;
+            double FoodDrinksCounter = 0, FunCounter = 0, GamesCounter = 0, ShoppingCounter = 0, FinancialCounter = 0, VehicleCounter = 0, OtherExpenseCounter = 0;
+            double total = 0;
+            foreach(Income income in context.Incomes)
+            {
+                if(income.TypeId==1)
+                {
+                    FamilyCounter+=income.Value;
+                    total += income.Value;
+                }
+                else if (income.TypeId==2)
+                {
+                    JobCounter += income.Value;
+                    total += income.Value;
+                }
+                else if (income.TypeId == 3)
+                {
+                    SalesCounter += income.Value;
+                    total += income.Value;
+                }
+                else if (income.TypeId == 4)
+                {
+                    TradingCounter += income.Value;
+                    total += income.Value;
+                }
+                else if (income.TypeId == 5)
+                {
+                    ServicesCounter += income.Value;
+                    total += income.Value;
+                }
+                else if (income.TypeId == 6)
+                {
+                    OnlineCounter += income.Value;
+                    total += income.Value;
+                }
+                else if (income.TypeId == 7)
+                {
+                    OtherIncomeCounter += income.Value;
+                    total += income.Value;
+                }
+            }
+            display.ShowStatisticsInterfaceIncomes(FamilyCounter, JobCounter, SalesCounter, TradingCounter, ServicesCounter, OnlineCounter, OtherIncomeCounter, total);
+            total = 0;
+            foreach (Expense expense in context.Expenses)
+            {
+                if (expense.Type_id == 8)
+                {
+                    FoodDrinksCounter += expense.Value;
+                    total += expense.Value;
+                }
+                else if (expense.Type_id == 9)
+                {
+                    FunCounter += expense.Value;
+                    total += expense.Value;
+                }
+                else if (expense.Type_id == 10)
+                {
+                    GamesCounter += expense.Value;
+                    total += expense.Value;
+                }
+                else if (expense.Type_id == 11)
+                {
+                    ShoppingCounter += expense.Value;
+                    total += expense.Value;
+                }
+                else if (expense.Type_id == 12)
+                {
+                    FinancialCounter += expense.Value;
+                    total += expense.Value;
+                }
+                else if (expense.Type_id == 13)
+                {
+                    VehicleCounter += expense.Value;
+                    total += expense.Value;
+                }
+                else if (expense.Type_id == 14)
+                {
+                    OtherExpenseCounter += expense.Value;
+                    total += expense.Value;
+                }
+            }
+            display.ShowStatisticsInterfaceExpenses(FoodDrinksCounter, FunCounter, GamesCounter, ShoppingCounter, FinancialCounter, VehicleCounter, OtherExpenseCounter, total);
+            EscapeToMain();
+        }
+
         private void ResetBalance()
         {
-            TotalSumOfAccount = 0;
             display.WarningMessageForReset();
             string answer = display.GetResetAnswer().ToLower();
             while(answer!="y" && answer!="n")
@@ -410,8 +530,8 @@ namespace VWallet
             }
             if (answer == "y")
             {
-                //Income FirstInRangeIncome, LastInRangeIncome;
-                foreach(Income income in context.Incomes)
+                TotalSumOfAccount.Count = 0;
+                foreach (Income income in context.Incomes)
                 {
                     context.Incomes.Remove(income);
                 }
@@ -419,7 +539,7 @@ namespace VWallet
                 {
                     context.Expenses.Remove(expense);
                 }
-                Console.WriteLine($"Account balance updated to {TotalSumOfAccount:f2} BGN");
+                Console.WriteLine($"Account balance updated to {TotalSumOfAccount.Count:f2} BGN");
                 context.SaveChanges();
                 EscapeToMain();
             }

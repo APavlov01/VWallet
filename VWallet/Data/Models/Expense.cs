@@ -23,8 +23,6 @@ namespace VWallet
         [Required]
         public int Type_id { get; set; }
 
-
-
         public Expense(string description, double value, int type_id)
         {
             this.Description = description;
